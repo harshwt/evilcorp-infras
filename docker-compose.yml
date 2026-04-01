@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  web:
+    image: evilcorp/frontend:3.2.1
+    ports:
+      - "443:443"
+    environment:
+      - NODE_ENV=production
+      - API_ENDPOINT=https://api.internal.evilcorp.local
+    networks:
+      - corp-net
+    restart: always
+
+  api:
+    image: evilcorp/api-gateway:2.7.0
+    ports:
+      - "8443:8443"
+    environment:
+      - DB_HOST=postgres.internal.evilcorp.local
+      - REDIS_HOST=cache.internal.evilcorp.local
+    networks:
+      - corp-net
+    restart: always
+
+  monitoring:
+    image: evilcorp/prometheus-stack:1.4.2
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - corp-net
+
+networks:
+  corp-net:
+    driver: bridge
