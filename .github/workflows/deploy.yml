@@ -1,0 +1,20 @@
+name: Deploy to Production
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build containers
+        run: docker-compose build
+      - name: Run security scan
+        run: trivy image evilcorp/api-gateway:latest
+      - name: Deploy
+        run: |
+          echo "Deploying to CLUSTER-01..."
+          kubectl apply -f k8s/
+        env:
+          KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
