@@ -1,0 +1,14 @@
+=== EVILCORP SECURITY SCAN REPORT ===
+Date: 2026-04-05
+Scanner: Trivy v0.50.1 + custom rules
+
+[PASS] Container images: No critical CVEs
+[PASS] Secrets scan: No hardcoded credentials detected
+[PASS] Network policies: All egress rules compliant
+[WARN] Pod security: 2 containers running as root (monitoring stack)
+[INFO] Last penetration test: 2026-03-15 - 0 critical findings
+[INFO] Compliance status: SOC2 controls validated
+
+Action items:
+  - Migrate monitoring containers to non-root (ETA: 2026-04-15)
+  - Schedule next pentest for Q3
